@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Scores
+{% endblock %}
+
+{% block main %}
+    <h2>{{ name }}'s Scores</h2><br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Level / Subject</th>
+                <th scope="col">Math</th>
+                <th scope="col">English</th>
+                <th scope="col">Science</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for score in scores %}
+                <tr>
+                    <th>Easy</th>
+                    <td>{{ score[3] }}%</td>
+                    <td>{{ score[6] }}%</td>
+                    <td>{{ score[9] }}%</td>
+                </tr>
+                <tr>
+                    <th>Intermediate</th>
+                    <td>{{ score[4] }}%</td>
+                    <td>{{ score[7] }}%</td>
+                    <td>{{ score[10] }}%</td>
+                </tr>
+                <tr>
+                    <th>Hard</th>
+                    <td>{{ score[5] }}%</td>
+                    <td>{{ score[8] }}%</td>
+                    <td>{{ score[11] }}%</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table><br><br>
+    <button class="btn btn-outline-primary" type="submit" id="reset-btn">Reset</button>
+
+    <script>
+        $(document).ready(function() {
+            $("#reset-btn").click(function() {
+                // Reset the score on the front end
+                $("td").html(0);
+                // Reset the score on the back end
+                $.ajax({
+                    type: "POST",
+                    url: "/reset-scores",  
+                    data: { 
+                        score: 0
+                    },
+                    success: function(response) {
+                        // Handle the response from the server if needed
+                        alert("The scores have been reset successfully!");
+                        window.location = "/" //redirect
+                    },
+                    error: function(error) {
+                        // Handle the error if the request fails
+                        alert("Error submitting count: " + error.statusText);
+                    }
+                });
+            })
+        })
+    </script>
+{% endblock %}

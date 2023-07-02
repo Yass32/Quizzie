@@ -1,0 +1,109 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Easy Maths
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h5>1. Find the perimeter and area of each rectangular shape</h5><br>
+                <img class="img-fluid" src="/static/math_easy geometry.PNG"><br>
+                <label>
+                    <input type="radio" checked="" name="radio1" id="incorrect"><span>P = 104 yd A = 532 yd²</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio1" id="incorrect"><span>P = 106 yd A = 493 yd²</span>
+                </label> 
+                <label>
+                    <input type="radio" name="radio1" id="correct"><span>P = 90 yd A = 389 yd²</span>
+                </label>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-12">
+                <h5>2. Cups are sold 6 to a package and plates are sold 8 to a
+                    package. If you want to have the same number of each item
+                    for a party, what is the least number of packages of each you
+                    need to buy?</h5><br>
+                <label>
+                    <input type="radio" name="radio2" id="correct"><span>24</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio2" id="incorrect"><span>32</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio2" id="incorrect"><span>48</span>
+                </label> 
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-12">
+                <h5>3. Complete the table below</h5><br>
+                <img class="img-fluid" src="/static/math_easy algebra.PNG"><br>
+                <label>
+                    <input type="radio" name="radio3" id="incorrect"><span>11, 10, 8, 2, 0</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio3" id="correct"><span>6, 5, 4, 2, 0</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio3" id="incorrect"><span>0, 2, 4, 6, 3</span>
+                </label> 
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-12">
+                <h5>4. Add the following: 10<sup>1</sup> + 10<sup>4</sup></h5><br>
+                <label>
+                    <input type="radio" name="radio" id="incorrect"><span>10,100</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio" id="incorrect"><span>100,000</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio" id="correct"><span>10,010</span>
+                </label>
+            </div>
+        </div>
+        <br>
+        <button class="btn btn-outline-primary" id="submit-btn" type="submit">Submit</button>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            let scoreCount = 0; // Get number of correct keys pressed
+            let pageTitle = document.title;  // Get the current page title
+
+            // Function to handle button clicks
+            $("input").on("click", function() {
+                if ($(this).attr("id") === "correct") {
+                    scoreCount++;
+                }
+            });
+
+            // Function to submit the scores when "Submit" button is clicked
+            $("#submit-btn").click(function() {
+                // Send the scoreCount to the Flask backend
+                $.ajax({
+                    type: "POST",
+                    url: "/submit-scores", 
+                    data: { 
+                        score: scoreCount,
+                        title: pageTitle 
+                    },
+                    success: function(response) {
+                        // Handle the response from the server if needed
+                        alert("Scores have been submitted successfully!");
+                        window.location = "/scores" //redirect
+                    },
+                    error: function(error) {
+                        // Handle the error if the request fails
+                        alert("Error submitting scores: " + error.statusText);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

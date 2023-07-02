@@ -1,0 +1,103 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Easy English
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h5>1. The letters of the words below are jumbled. Figure out what the word is and write it on the blank line provided.  ANIODSMSI ______</h5><br>
+                <label>
+                    <input type="radio" name="radio1" id="incorrect"><span>Specific</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio1" id="incorrect"><span>Octopus</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio1" id="correct"><span>Admission</span>
+                </label>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-12">
+                <h5>2. Choose the correct question tag: We are eating something delicious, ______ .</h5><br>
+                <label>
+                    <input type="radio" name="radio2" id="correct"><span>aren't we?</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio2" id="incorrect"><span>are we?</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio2" id="incorrect"><span>are they not?</span>
+                </label>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-12">
+                <h5>3. Choose the correct homophone : We did not want to ______ the food so we shared it with our neighbors.</h5><br>
+                <label>
+                    <input type="radio" name="radio3" id="incorrect"><span>Waist</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio3" id="correct"><span>Waste</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio3" id="incorrect"><span>Wayst</span>
+                </label>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-12">
+                <h5>4. The letters of the words below are jumbled. Figure out what the word is and write it on the blank line provided.  ATRILPA ______</h5><br>
+                <label>
+                    <input type="radio" name="radio" id="incorrect"><span>Spatial</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio" id="incorrect"><span>Martial</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio" id="correct"><span>Partial</span>
+                </label>
+            </div>
+        </div><br>
+        <button class="btn btn-outline-primary" id="submit-btn" type="submit">Submit</button>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            let scoreCount = 0; // Get number of correct keys pressed
+            let pageTitle = document.title;  // Get the current page title
+
+            // Function to handle button clicks
+            $("input").on("click", function() {
+                if ($(this).attr("id") === "correct") {
+                    scoreCount++;
+                }
+            });
+
+            // Function to submit the scores when "Submit" button is clicked
+            $("#submit-btn").click(function() {
+                // Send the scoreCount to the Flask backend
+                $.ajax({
+                    type: "POST",
+                    url: "/submit-scores", 
+                    data: { 
+                        score: scoreCount,
+                        title: pageTitle 
+                    },
+                    success: function(response) {
+                        // Handle the response from the server if needed
+                        alert("Scores have been submitted successfully!");
+                        window.location = "/scores" //redirect
+                    },
+                    error: function(error) {
+                        // Handle the error if the request fails
+                        alert("Error submitting scores: " + error.statusText);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

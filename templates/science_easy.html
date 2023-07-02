@@ -1,0 +1,103 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Easy Science
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h5>1. Animals without a backbone are called ______ .</h5><br>
+                <label>
+                    <input type="radio" name="radio1" id="incorrect"><span>Amphibians</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio1" id="incorrect"><span>Invertebrates</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio1" id="correct"><span>Vertebrates</span>
+                </label>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-12">
+                <h5>2. A hard outer covering on many invertebrates is called ______ .</h5><br>
+                <label>
+                    <input type="radio" name="radio2" id="correct"><span>Exoskeleton</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio2" id="incorrect"><span>Endoskeleton</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio2" id="incorrect"><span>Outerskeleton</span>
+                </label>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-12">
+                <h5>3. The ______ runs down the middle of the body and connects the brain and the nerves.</h5><br>
+                <label>
+                    <input type="radio" name="radio3" id="incorrect"><span>Nervous System</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio3" id="correct"><span>Spinalcord</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio3" id="incorrect"><span>Spinal System</span>
+                </label>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-12">
+                <h5>4. The brain sends ______ throughout the body, telling the body how to react and respond.</h5><br>
+                <label>
+                    <input type="radio" name="radio" id="incorrect"><span>Messages</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio" id="incorrect"><span>Nerves</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio" id="correct"><span>Signals</span>
+                </label>
+            </div>
+        </div><br>
+        <button class="btn btn-outline-primary" id="submit-btn" type="submit">Submit</button>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            let scoreCount = 0; // Get number of correct keys pressed
+            let pageTitle = document.title;  // Get the current page title
+
+            // Function to handle button clicks
+            $("input").on("click", function() {
+                if ($(this).attr("id") === "correct") {
+                    scoreCount++;
+                }
+            });
+
+            // Function to submit the scores when "Submit" button is clicked
+            $("#submit-btn").click(function() {
+                // Send the scoreCount to the Flask backend
+                $.ajax({
+                    type: "POST",
+                    url: "/submit-scores", 
+                    data: { 
+                        score: scoreCount,
+                        title: pageTitle 
+                    },
+                    success: function(response) {
+                        // Handle the response from the server if needed
+                        alert("Scores have been submitted successfully!");
+                        window.location = "/scores" //redirect
+                    },
+                    error: function(error) {
+                        // Handle the error if the request fails
+                        alert("Error submitting scores: " + error.statusText);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

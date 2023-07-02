@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <h2>Log into your Account</h2><br><br>
+    <form action="/login" method="post">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="username">
+            <label for="floatingInput">Name</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+            <label for="floatingPassword">Password</label>
+        </div>
+        <br>
+        <div class="text-secondary">{{ msg }}</div>
+        <br>
+        <button class="btn btn-outline-primary" type="submit">Log In</button>
+        <br> <br>
+        <a href="/register">You don't have an account? Register</a>
+    </form>
+{% endblock %}

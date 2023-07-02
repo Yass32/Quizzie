@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+    <h2>Choose your Quiz Topic and Difficulty</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <img src="/static/maths_card.jpg" class="card-img-top" alt="maths_card">
+                    <div class="card-body">
+                      <h5 class="card-title text-bg-primary">Math</h5>
+                      <p class="card-text">Trivia questions on math word problems, functions, quadratic expressions, etc...</p>
+                      <a href="/maths_easy" class="btn btn-outline-primary">Easy</a>
+                      <a href="/maths_intermediate" class="btn btn-outline-primary">Intermediate</a>
+                      <a href="/maths_hard" class="btn btn-outline-primary">Hard</a>
+                    </div>
+                  </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img src="/static/english_card" class="card-img-top" alt="english_card">
+                    <div class="card-body">
+                      <h5 class="card-title text-bg-primary">English</h5>
+                      <p class="card-text">Trivia questions on english grammar, vocabulary, spellings, etc...</p>
+                      <a href="/english_easy" class="btn btn-outline-primary">Easy</a>
+                      <a href="/english_intermediate" class="btn btn-outline-primary">Intermediate</a>
+                      <a href="/english_hard" class="btn btn-outline-primary">Hard</a>
+                    </div>
+                  </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img src="/static/science_card.jpg" class="card-img-top" alt="science_card">
+                    <div class="card-body">
+                      <h5 class="card-title text-bg-primary">Science</h5>
+                      <p class="card-text">Trivia questions on basic sciences, chemistry, physics, biology, geography, etc...</p>
+                      <a href="/science_easy" class="btn btn-outline-primary" >Easy</a>
+                      <a href="/science_intermediate" class="btn btn-outline-primary" >Intermediate</a>
+                      <a href="/science_hard" class="btn btn-outline-primary" >Hard</a>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+    </table>
+{% endblock %}

@@ -1,0 +1,183 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Intermediate Science
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h5>1. What is the dome shaped muscle used in breathing found at the bottom of the lungs?</h5><br>
+                <label>
+                    <input type="radio" checked="" name="radio1" id="incorrect"><span>Lungs</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio1" id="incorrect"><span>Trachea</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio1" id="incorrect"><span>Alveoli</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio1" id="correct"><span>Diaphragm</span>
+                </label>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-12">
+                <h5>2. What gas do we breathe out?</h5><br>
+                <label>
+                    <input type="radio" name="radio2" id="incorrect"><span>Carbon dioxide</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio2" id="incorrect"><span>Heluim</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio2" id="correct"><span>Oxygen</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio2" id="incorrect"><span>Air</span>
+                </label>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-12">
+                <h5>3. A household cleaner has a pH around 10. It would be considered? </h5><br>
+                <label>
+                    <input type="radio" name="radio3" id="correct"><span>A base</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio3" id="incorrect"><span>An acid</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio3" id="incorrect"><span>Neutral</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio3" id="incorrect"><span>Liquid</span>
+                </label>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-12">
+                <h5>4. The Moon is visible to us because it? </h5><br>
+                <label>
+                    <input type="radio" name="radio4" id="incorrect"><span>produces light through combustion</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio4" id="correct"><span>reflects light from Sun</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio4" id="incorrect"><span>reflects light from Earth</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio4" id="incorrect"><span>produces light through fusion</span>
+                </label>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-12">
+                <h5>5. The cell organelle where photosynthesis takes place is the ______ .</h5><br>
+                <label>
+                    <input type="radio" name="radio5" id="incorrect"><span>Vacuole</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio5" id="incorrect"><span>Nucleus</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio5" id="correct"><span>Chloroplast</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio5" id="incorrect"><span>Cell wall</span>
+                </label>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-12">
+                <h5>6. Lysosomes in the cell work to ______ .</h5><br>
+                <label>
+                    <input type="radio" name="radio6" id="incorrect"><span>store all information</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio6" id="incorrect"><span>provide protein</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio6" id="incorrect"><span>transport materials</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio6" id="correct"><span>get rid of waste</span>
+                </label>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-12">
+                <h5>7. Any material that does not allow heat to pass through it easily is called ______ .</h5><br>
+                <label>
+                    <input type="radio" name="radio7" id="incorrect"><span>Conductor</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio7" id="incorrect"><span>Expand</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio7" id="incorrect"><span>Contract</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio7" id="correct"><span>Insulator</span>
+                </label>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-12">
+                <h5>8. The twisted shape of DNA is a ______ .</h5><br>                
+                <label>
+                    <input type="radio" name="radio" id="incorrect"><span>Nucleotide</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio" id="incorrect"><span>Double ladder</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio" id="correct"><span>Double helix</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio" id="incorrect"><span>Base pair</span>
+                </label>
+            </div>
+        </div><br>
+        <button class="btn btn-outline-primary" id="submit-btn" type="submit">Submit</button>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            let scoreCount = 0; // Get number of correct keys pressed
+            let pageTitle = document.title;  // Get the current page title
+
+            // Function to handle button clicks
+            $("input").on("click", function() {
+                if ($(this).attr("id") === "correct") {
+                    scoreCount++;
+                }
+            });
+
+            // Function to submit the scores when "Submit" button is clicked
+            $("#submit-btn").click(function() {
+                // Send the scoreCount to the Flask backend
+                $.ajax({
+                    type: "POST",
+                    url: "/submit-scores", 
+                    data: { 
+                        score: scoreCount,
+                        title: pageTitle 
+                    },
+                    success: function(response) {
+                        // Handle the response from the server if needed
+                        alert("Scores have been submitted successfully!");
+                        window.location = "/scores" //redirect
+                    },
+                    error: function(error) {
+                        // Handle the error if the request fails
+                        alert("Error submitting scores: " + error.statusText);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
