@@ -217,3 +217,21 @@ def science_hard():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+'''
+MySQL TABLE
+CREATE TABLE userr (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username TEXT,
+    password TEXT,
+    maths_easy INT DEFAULT 0,
+    maths_intermediate INT DEFAULT 0,
+    maths_hard INT DEFAULT 0,
+    english_easy INT DEFAULT 0,
+    english_intermediate INT DEFAULT 0,
+    english_hard INT DEFAULT 0,
+    science_easy INT DEFAULT 0,
+    science_intermediate INT DEFAULT 0,
+    science_hard INT DEFAULT 0
+);
+'''
