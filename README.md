@@ -8,7 +8,7 @@ Quizzie is a web application that provides trivia questions in the subjects of M
 
 ### Features
 
-- User registration and login: Users can create an account and log in to access the quiz.
+- User registration and login: Users can create an account and log in to access the quiz. If username or passward has already been taken a message will appear telling you so, 
 - Session management: The application manages user sessions to keep track of logged-in users.
 - Database integration: The application uses a MySQL database to store user information and quiz scores.
 - Subject-specific routes: There are separate routes for each subject and difficulty level to provide a seamless experience.
