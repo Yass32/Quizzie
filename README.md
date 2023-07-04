@@ -1,6 +1,6 @@
 # Quizzie
 
-Quizzie is a web application that provides trivia questions in the subjects of maths, English, and science. It offers questions of varying difficulty levels, including easy, intermediate, and hard. The application is built using HTML, CSS (Bootstrap), JavaScript (jQuery), MySQL, and Python (Flask).
+Quizzie is a web application that provides trivia questions in the subjects of Maths, English, and Science. It offers questions of varying difficulty levels, including easy, intermediate, and hard. The application is built using HTML, CSS (Bootstrap), JavaScript (jQuery), MySQL, and Python (Flask).
 
 ## Features
 
