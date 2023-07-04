@@ -1,9 +1,8 @@
 # Quizzie
 
 ## Video Demo:  https://youtu.be/hZY7fYTTE6A
-## Description:
 
-#
+## Description:
 
 Quizzie is a web application that provides trivia questions in the subjects of Maths, English, and Science. It offers questions of varying difficulty levels, including easy, intermediate, and hard. The application is built using HTML, CSS (Bootstrap), JavaScript (jQuery), MySQL, and Python (Flask).
 
@@ -65,11 +64,3 @@ Quizzie is a web application that provides trivia questions in the subjects of M
 - After completing a quiz, your score will be recorded and displayed on the scores page.
 - You can reset your scores on the scores page if needed.
 - To log out, click on the "Logout" link.
-
-## Contributing
-
-Contributions to Quizzie are welcome! If you find any issues or want to add new features, feel free to open an issue or submit a pull request. Please follow the existing code style and guidelines.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
