@@ -69,7 +69,7 @@
         <div class="row">
             <div class="col-12">
                 <h5>4. Solve the simultaneous equations  y=-x+2 and  y=-3x-2 using the graph below</h5><br>
-                <img class="img-fluid" src="/static/maths_hard simultaneous eq.PNG"><br>
+                <img class="img-fluid" src="/static/maths_hard simultaneous eq.PNG" alt="maths simultaneous equations"><br>
                 <label>
                     <input type="radio" name="radio4" id="incorrect"><span>The solution is (4, -4)</span>
                 </label>
@@ -210,39 +210,5 @@
         <button class="btn btn-outline-primary" id="submit-btn" type="submit">Submit</button>
     </div>
 
-    <script>
-        $(document).ready(function() {
-            let scoreCount = 0; // Get number of correct keys pressed
-            let pageTitle = document.title;  // Get the current page title
-
-            // Function to handle button clicks
-            $("input").on("click", function() {
-                if ($(this).attr("id") === "correct") {
-                    scoreCount++;
-                }
-            });
-
-            // Function to submit the scores when "Submit" button is clicked
-            $("#submit-btn").click(function() {
-                // Send the scoreCount to the Flask backend
-                $.ajax({
-                    type: "POST",
-                    url: "/submit-scores", 
-                    data: { 
-                        score: scoreCount,
-                        title: pageTitle 
-                    },
-                    success: function(response) {
-                        // Handle the response from the server if needed
-                        alert("Scores have been submitted successfully!");
-                        window.location = "/scores" //redirect
-                    },
-                    error: function(error) {
-                        // Handle the error if the request fails
-                        alert("Error submitting scores: " + error.statusText);
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="/static/js/score.js"></script>
 {% endblock %}

@@ -62,42 +62,9 @@
                 </label>
             </div>
         </div><br>
+        <div id="timer"></div>
         <button class="btn btn-outline-primary" id="submit-btn" type="submit">Submit</button>
     </div>
 
-    <script>
-        $(document).ready(function() {
-            let scoreCount = 0; // Get number of correct keys pressed
-            let pageTitle = document.title;  // Get the current page title
-
-            // Function to handle button clicks
-            $("input").on("click", function() {
-                if ($(this).attr("id") === "correct") {
-                    scoreCount++;
-                }
-            });
-
-            // Function to submit the scores when "Submit" button is clicked
-            $("#submit-btn").click(function() {
-                // Send the scoreCount to the Flask backend
-                $.ajax({
-                    type: "POST",
-                    url: "/submit-scores", 
-                    data: { 
-                        score: scoreCount,
-                        title: pageTitle 
-                    },
-                    success: function(response) {
-                        // Handle the response from the server if needed
-                        alert("Scores have been submitted successfully!");
-                        window.location = "/scores" //redirect
-                    },
-                    error: function(error) {
-                        // Handle the error if the request fails
-                        alert("Error submitting scores: " + error.statusText);
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="/static/js/score.js"></script>
 {% endblock %}

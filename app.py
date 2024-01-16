@@ -9,7 +9,7 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-# The procedure we follow to connect Flask-MySQL
+# Configuration for MySQL connection
 app.config["MYSQL_HOST"] = "localhost"
 app.config["MYSQL_USER"] = "root"
 app.config["MYSQL_PASSWORD"] = ""
@@ -20,6 +20,7 @@ mysql = MySQL(app)
 # Home Page
 @app.route("/")
 def index():
+    # Redirect to registration page if the user is not logged in
     if not session.get("username"):
         return redirect('/register')
     return render_template("index.html")
@@ -32,10 +33,12 @@ def register():
         username = request.form.get("username")
         password = request.form.get("password")
 
+        # Check if username and password are provided
         if not username or not password:
             flash("Username or Password is missing")
             return render_template("register.html")
         try:
+            # Insert user into the database
             cursor = mysql.connection.cursor()
             cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
             session['loggedin'] = True
@@ -59,6 +62,7 @@ def login():
         username = request.form.get("username")
         password = request.form.get ("password")
 
+        # Check if username and password are provided
         if not username or not password:
             flash("Username or Password is missing")
             return render_template("login.html")
@@ -90,6 +94,7 @@ def login():
 # User logout
 @app.route("/logout")
 def logout():
+    # Clear user session data
     session['loggedin'] = None
     session['id'] = None
     session['username'] = None
@@ -99,6 +104,7 @@ def logout():
 # Scores page
 @app.route("/scores")
 def scores():
+    # Retrieve user scores from the database
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT * FROM users WHERE id = %s", (session['id'],))
     scores = cursor.fetchall()
@@ -216,6 +222,7 @@ def science_hard():
     return render_template('science_hard.html')
 
 if __name__ == '__main__':
+    # Run the Flask app in debug mode
     app.run(debug=True)
 
 '''

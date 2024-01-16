@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-12">
                 <h5>1. Find the perimeter and area of each rectangular shape</h5><br>
-                <img class="img-fluid" src="/static/math_easy geometry.PNG"><br>
+                <img class="img-fluid" src="/static/math_easy geometry.PNG" alt="maths geometry"><br>
                 <label>
                     <input type="radio" checked="" name="radio1" id="incorrect"><span>P = 104 yd A = 532 yd²</span>
                 </label>
@@ -41,7 +41,7 @@
         <div class="row">
             <div class="col-12">
                 <h5>3. Complete the table below</h5><br>
-                <img class="img-fluid" src="/static/math_easy algebra.PNG"><br>
+                <img class="img-fluid" src="/static/math_easy algebra.PNG" alt="maths algebra"><br>
                 <label>
                     <input type="radio" name="radio3" id="incorrect"><span>11, 10, 8, 2, 0</span>
                 </label>
@@ -71,39 +71,5 @@
         <button class="btn btn-outline-primary" id="submit-btn" type="submit">Submit</button>
     </div>
 
-    <script>
-        $(document).ready(function() {
-            let scoreCount = 0; // Get number of correct keys pressed
-            let pageTitle = document.title;  // Get the current page title
-
-            // Function to handle button clicks
-            $("input").on("click", function() {
-                if ($(this).attr("id") === "correct") {
-                    scoreCount++;
-                }
-            });
-
-            // Function to submit the scores when "Submit" button is clicked
-            $("#submit-btn").click(function() {
-                // Send the scoreCount to the Flask backend
-                $.ajax({
-                    type: "POST",
-                    url: "/submit-scores", 
-                    data: { 
-                        score: scoreCount,
-                        title: pageTitle 
-                    },
-                    success: function(response) {
-                        // Handle the response from the server if needed
-                        alert("Scores have been submitted successfully!");
-                        window.location = "/scores" //redirect
-                    },
-                    error: function(error) {
-                        // Handle the error if the request fails
-                        alert("Error submitting scores: " + error.statusText);
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="/static/js/score.js"></script>
 {% endblock %}
