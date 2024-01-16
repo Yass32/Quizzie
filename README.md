@@ -1,17 +1,21 @@
 # Quizzie
 
+## Video Demo:  https://youtu.be/hZY7fYTTE6A
+
+## Description:
+
 Quizzie is a web application that provides trivia questions in the subjects of Maths, English, and Science. It offers questions of varying difficulty levels, including easy, intermediate, and hard. The application is built using HTML, CSS (Bootstrap), JavaScript (jQuery), MySQL, and Python (Flask).
 
-## Features
+#### Features
 
-- User registration and login: Users can create an account and log in to access the quiz.
+- User registration and login: Users can create an account and log in to access the quiz. If username or passward has already been taken a message will appear telling you so, as well as if username and/or password is invalid.
 - Session management: The application manages user sessions to keep track of logged-in users.
-- Database integration: The application uses a MySQL database to store user information and quiz scores.
+- Database integration: The application uses a MySQL database to store user information and quiz scores for each subject and difficulty.
 - Subject-specific routes: There are separate routes for each subject and difficulty level to provide a seamless experience.
 - Score tracking: The application allows users to submit and reset their scores for each quiz.
 - User-friendly interface: The application utilizes Bootstrap CSS framework and jQuery to create an intuitive and visually appealing user interface.
 
-## Installation
+#### Installation
 
 1. Clone the repository:
 
@@ -51,7 +55,7 @@ Quizzie is a web application that provides trivia questions in the subjects of M
 
 6. Access the application in your web browser at `http://localhost:5000`.
 
-## Usage
+#### Usage
 
 - Open your web browser and go to `http://localhost:5000`.
 - If you don't have an account, click on the "Register" link to create one. Fill in the required information and submit the form.
@@ -60,11 +64,3 @@ Quizzie is a web application that provides trivia questions in the subjects of M
 - After completing a quiz, your score will be recorded and displayed on the scores page.
 - You can reset your scores on the scores page if needed.
 - To log out, click on the "Logout" link.
-
-## Contributing
-
-Contributions to Quizzie are welcome! If you find any issues or want to add new features, feel free to open an issue or submit a pull request. Please follow the existing code style and guidelines.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
