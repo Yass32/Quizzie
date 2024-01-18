@@ -11,7 +11,7 @@ $(document).ready(function() {
     // Set timeRemaining based on the page title
     if (pageTitle.includes("Easy")) {
         // 3 minutes for Easy level
-        timeRemaining = 3 * 60;
+        timeRemaining = 1.5 * 60;
     } else if (pageTitle.includes("Intermediate")) {
         // 5 minutes for Intermediate level
         timeRemaining = 5 * 60;
