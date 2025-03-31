@@ -16,6 +16,14 @@ app.config["MYSQL_PASSWORD"] = ""
 app.config["MYSQL_DB"] = "users"
 mysql = MySQL(app)
 
+# Test database connection
+try:
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT 1")  # Simple query to test connection
+    print("Database connected successfully!")
+except Exception as e:
+    print(f"Failed to connect to the database: {e}")
+    # This will print a success message if the database connection is established, or an error message if the connection fails.
 
 # Home Page
 @app.route("/")
