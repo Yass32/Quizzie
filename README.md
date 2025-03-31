@@ -1,66 +1,132 @@
 # Quizzie
 
-## Video Demo:  https://youtu.be/hZY7fYTTE6A
+Quizzie is a web-based quiz application that provides trivia questions in the subjects of Maths, English, and Science. It offers questions of varying difficulty levels: Easy, Intermediate, and Hard. The application is built using Flask, MySQL, HTML, CSS, and JavaScript.
 
-## Description:
+## Features
 
-Quizzie is a web application that provides trivia questions in the subjects of Maths, English, and Science. It offers questions of varying difficulty levels, including easy, intermediate, and hard. The application is built using HTML, CSS (Bootstrap), JavaScript (jQuery), MySQL, and Python (Flask).
+- **User Registration and Login**: Users can create an account and log in to access the quizzes.
+- **Session Management**: User sessions are managed using Flask-Session.
+- **Database Integration**: MySQL is used to store user information and quiz scores.
+- **Dynamic Quiz Pages**: Separate routes and templates for each subject and difficulty level.
+- **Score Tracking**: Users can view and reset their scores for each quiz.
+- **Timer Functionality**: Each quiz has a countdown timer based on its difficulty level.
+- **Responsive Design**: The application uses Bootstrap for a user-friendly and responsive interface.
 
-#### Features
+## Installation
 
-- User registration and login: Users can create an account and log in to access the quiz. If username or passward has already been taken a message will appear telling you so, as well as if username and/or password is invalid.
-- Session management: The application manages user sessions to keep track of logged-in users.
-- Database integration: The application uses a MySQL database to store user information and quiz scores for each subject and difficulty.
-- Subject-specific routes: There are separate routes for each subject and difficulty level to provide a seamless experience.
-- Score tracking: The application allows users to submit and reset their scores for each quiz.
-- User-friendly interface: The application utilizes Bootstrap CSS framework and jQuery to create an intuitive and visually appealing user interface.
+### Prerequisites
 
-#### Installation
+- Python 3.10 or higher
+- MySQL server
+- A virtual environment (optional but recommended)
 
-1. Clone the repository:
+### Steps
 
+1. **Clone the Repository**:
    ```bash
    git clone https://github.com/your-username/quizzie.git
-   ```
-
-2. Navigate to the project directory:
-
-   ```bash
    cd quizzie
    ```
 
-3. Install the required dependencies. It is recommended to use a virtual environment:
-
+2. **Install Dependencies**:
+   It is recommended to use a virtual environment:
    ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
    pip install -r requirements.txt
    ```
 
-4. Set up the MySQL database:
-
-   - Create a new database named `users` (or choose an existing one).
-   - Update the database configuration in the `app.py` file:
-
+3. **Set Up the Database**:
+   - Create a MySQL database named `users` (or any name of your choice).
+   - Update the database configuration in `app.py`:
      ```python
      app.config["MYSQL_HOST"] = "localhost"
      app.config["MYSQL_USER"] = "root"
      app.config["MYSQL_PASSWORD"] = ""
      app.config["MYSQL_DB"] = "users"
      ```
+   - Run the following SQL command to create the `userr` table:
+     ```sql
+     CREATE TABLE userr (
+         id INT PRIMARY KEY AUTO_INCREMENT,
+         username TEXT,
+         password TEXT,
+         maths_easy INT DEFAULT 0,
+         maths_intermediate INT DEFAULT 0,
+         maths_hard INT DEFAULT 0,
+         english_easy INT DEFAULT 0,
+         english_intermediate INT DEFAULT 0,
+         english_hard INT DEFAULT 0,
+         science_easy INT DEFAULT 0,
+         science_intermediate INT DEFAULT 0,
+         science_hard INT DEFAULT 0
+     );
+     ```
 
-5. Run the application:
-
+4. **Run the Application**:
    ```bash
    python app.py
    ```
+   The application will be available at `http://localhost:5000`.
 
-6. Access the application in your web browser at `http://localhost:5000`.
+## Usage
 
-#### Usage
+1. Open your browser and navigate to `http://localhost:5000`.
+2. Register for an account or log in if you already have one.
+3. Choose a subject and difficulty level from the home page.
+4. Complete the quiz within the allotted time.
+5. View your scores on the "Scores" page.
+6. Reset your scores if needed.
 
-- Open your web browser and go to `http://localhost:5000`.
-- If you don't have an account, click on the "Register" link to create one. Fill in the required information and submit the form.
-- If you already have an account, click on the "Login" link and enter your username and password.
-- Once logged in, you will be redirected to the home page where you can choose the subject and difficulty level of the quiz you want to attempt.
-- After completing a quiz, your score will be recorded and displayed on the scores page.
-- You can reset your scores on the scores page if needed.
-- To log out, click on the "Logout" link.
+## Project Structure
+
+```
+Quizzie/
+├── app.py                  # Main Flask application
+├── templates/              # HTML templates for the app
+│   ├── layout.html         # Base layout for all pages
+│   ├── index.html          # Home page
+│   ├── register.html       # Registration page
+│   ├── login.html          # Login page
+│   ├── scores.html         # Scores page
+│   ├── maths_easy.html     # Easy Maths quiz
+│   ├── maths_intermediate.html  # Intermediate Maths quiz
+│   ├── maths_hard.html     # Hard Maths quiz
+│   ├── english_easy.html   # Easy English quiz
+│   ├── english_intermediate.html  # Intermediate English quiz
+│   ├── english_hard.html   # Hard English quiz
+│   ├── science_easy.html   # Easy Science quiz
+│   ├── science_intermediate.html  # Intermediate Science quiz
+│   ├── science_hard.html   # Hard Science quiz
+├── static/                 # Static files (CSS, JS, images)
+│   ├── styles.css          # Custom styles
+│   ├── js/
+│   │   ├── score.js        # Timer and score submission logic
+│   │   ├── reset_scores.js # Reset scores logic
+├── requirements.txt        # Python dependencies
+├── README.md               # Project documentation
+```
+
+## Technologies Used
+
+- **Backend**: Flask, Flask-MySQLdb, Flask-Session
+- **Frontend**: HTML, CSS (Bootstrap), JavaScript (jQuery)
+- **Database**: MySQL
+- **Other Libraries**: NumPy, Pandas
+
+## Future Enhancements
+
+- Add more subjects and quizzes.
+- Implement user profile pages.
+- Add a leaderboard to compare scores with other users.
+- Improve security by hashing passwords before storing them in the database.
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+## Acknowledgments
+
+- [Flask Documentation](https://flask.palletsprojects.com/)
+- [Bootstrap Documentation](https://getbootstrap.com/)
+- [MySQL Documentation](https://dev.mysql.com/doc/)
