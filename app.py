@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, render_template, request, flash, redirect, session
 from flask_mysqldb import MySQL
 from flask_session import Session
+import os
 #Create a Flask instance
 app = Flask(__name__)
 
@@ -24,6 +25,10 @@ try:
 except Exception as e:
     print(f"Failed to connect to the database: {e}")
     # This will print a success message if the database connection is established, or an error message if the connection fails.
+
+@app.route('/health')
+def health_check():
+    return 'OK', 200
 
 # Home Page
 @app.route("/")
@@ -229,9 +234,9 @@ def science_intermediate():
 def science_hard():
     return render_template('science_hard.html')
 
-if __name__ == '__main__':
-    # Run the Flask app in debug mode
-    app.run(debug=True)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
 
 '''
 MySQL TABLE
