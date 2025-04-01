@@ -1,30 +1,32 @@
 from flask import Flask, jsonify, render_template, request, flash, redirect, session
-from flask_mysql_connector import MySQL
+from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 import pymysql
-#Create a Flask instance
+
+# Required for SQLAlchemy to recognize PyMySQL as a MySQL driver
+pymysql.install_as_MySQLdb()
+
+# Create Flask instance
 app = Flask(__name__)
 
-# Configure session to use filesystem (instead of signed cookies)
+# Configure session
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-# Configuration for MySQL connection
-app.config["MYSQL_HOST"] = "localhost"
-app.config["MYSQL_USER"] = "root"
-app.config["MYSQL_PASSWORD"] = ""
-app.config["MYSQL_DB"] = "users"
-mysql = MySQL(app)
+# Database Configuration
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://your-username:your-password@your-database-host/your-database-name"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+mysql = SQLAlchemy(app)
 
 # Test database connection
 try:
-    cursor = mysql.connection.cursor()
-    cursor.execute("SELECT 1")  # Simple query to test connection
+    with mysql.engine.connect() as connection:
+        connection.execute("SELECT 1")  # Simple query to test connection
     print("Database connected successfully!")
 except Exception as e:
     print(f"Failed to connect to the database: {e}")
-    # This will print a success message if the database connection is established, or an error message if the connection fails.
 
 # Home Page
 @app.route("/")
