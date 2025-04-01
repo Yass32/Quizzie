@@ -247,6 +247,6 @@ CREATE TABLE userr (
     english_hard INT DEFAULT 0,
     science_easy INT DEFAULT 0,
     science_intermediate INT DEFAULT 0,
-    science_hard INT DEFAULT 0
+    science_hard INT DEFAULT 0,
 );
 '''
