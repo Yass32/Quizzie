@@ -16,16 +16,18 @@ app.config["MYSQLHOST"] = "mysql.railway.internal"
 app.config["MYSQLUSER"] = "root"
 app.config["MYSQLPASSWORD"] = "pMqptZlSGailYAYdNoFphbBmgowDlphc"
 app.config["MYSQLDATABASE"] = "railway"
+app.config['MYSQLPORT'] = '3306'
 mysql = MySQL(app)
 
 # Test database connection
 try:
-    cursor = mysql.connection.cursor()
-    cursor.execute("SELECT 1")  # Simple query to test connection
-    print("Database connected successfully!")
+    with app.app_context():
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT 1")
+        print("Database connected successfully!")
+        cursor.close()
 except Exception as e:
     print(f"Failed to connect to the database: {e}")
-    # This will print a success message if the database connection is established, or an error message if the connection fails.
 
 @app.route('/health')
 def health_check():
