@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, render_template, request, flash, redirect, session
 from flask_mysqldb import MySQL
 from flask_session import Session
+import pymysql
+pymysql.install_as_MySQLdb()
 #Create a Flask instance
 app = Flask(__name__)
 
