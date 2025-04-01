@@ -10,15 +10,25 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-# Configuration for MySQL connection
-app.config['MYSQL_URL'] = "mysql://root:pMqptZlSGailYAYdNoFphbBmgowDlphc@mysql.railway.internal:3306/railway"
-app.config["MYSQLHOST"] = "mysql.railway.internal"
-app.config["MYSQLUSER"] = "root"
-app.config["MYSQLPASSWORD"] = "pMqptZlSGailYAYdNoFphbBmgowDlphc"
-app.config["MYSQLDATABASE"] = "railway"
-app.config['MYSQLPORT'] = '3306'
-mysql = MySQL(app)
+# Load MySQL Config from Environment Variables
+app.config["MYSQLHOST"] = os.getenv("MYSQLHOST")
+app.config["MYSQLUSER"] = os.getenv("MYSQLUSER")
+app.config["MYSQLPASSWORD"] = os.getenv("MYSQLPASSWORD")
+app.config["MYSQLDATABASE"] = os.getenv("MYSQLDATABASE")
+app.config["MYSQLPORT"] = int(os.getenv("MYSQLPORT", 3306))
 
+# Debug: Print environment variables (REMOVE after debugging)
+print("MYSQL_HOST:", app.config["MYSQL_HOST"])
+print("MYSQL_USER:", app.config["MYSQL_USER"])
+print("MYSQL_DB:", app.config["MYSQL_DB"])
+print("MYSQL_PORT:", app.config["MYSQL_PORT"])
+
+# Initialize MySQL
+try:
+    mysql = MySQL(app)
+    print("MySQL initialized successfully!")
+except Exception as e:
+    print(f"Error initializing MySQL: {e}")
 # Test database connection
 try:
     with app.app_context():
@@ -238,8 +248,7 @@ def science_hard():
     return render_template('science_hard.html')
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(debug=True)
 
 '''
 MySQL TABLE
