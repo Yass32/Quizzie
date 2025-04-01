@@ -11,6 +11,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configuration for MySQL connection
+app.config['MYSQL_URL'] = "mysql://root:pMqptZlSGailYAYdNoFphbBmgowDlphc@mysql.railway.internal:3306/railway"
 app.config["MYSQLHOST"] = "mysql.railway.internal"
 app.config["MYSQLUSER"] = "root"
 app.config["MYSQLPASSWORD"] = "pMqptZlSGailYAYdNoFphbBmgowDlphc"
