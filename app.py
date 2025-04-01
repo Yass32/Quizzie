@@ -20,7 +20,7 @@ app.config["MYSQLPORT"] = int(os.getenv("MYSQLPORT", 3306))
 # Debug: Print environment variables (REMOVE after debugging)
 print("MYSQLHOST:", app.config["MYSQLHOST"])
 print("MYSQLUSER:", app.config["MYSQLUSER"])
-print("MYSQLDATABASE:", app.config["MYSQLDB"])
+print("MYSQLDATABASE:", app.config["MYSQLDATABASE"])
 print("MYSQLPORT:", app.config["MYSQLPORT"])
 
 # Initialize MySQL
