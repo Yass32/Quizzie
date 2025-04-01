@@ -22,6 +22,8 @@ print("MYSQLHOST:", app.config["MYSQLHOST"])
 print("MYSQLUSER:", app.config["MYSQLUSER"])
 print("MYSQLDATABASE:", app.config["MYSQLDATABASE"])
 print("MYSQLPORT:", app.config["MYSQLPORT"])
+print("MYSQLPASSWORD:", app.config["MYSQLPASSWORD"])
+
 
 # Initialize MySQL
 try:
