@@ -75,7 +75,10 @@ def register():
             session['id'] = cursor.lastrowid
             session['username'] = username
             connection.commit()
+
             flash(f"{session['username']} you have registered in successfully !!")
+            connection.close()
+            # Redirect to the home page after successful registration
             return redirect('/')
         except pymysql.MySQLError as e:
             print(f"Database error: {e}")
@@ -101,6 +104,7 @@ def login():
             cursor = connection.cursor()
             cursor.execute("SELECT id FROM users WHERE username = %s AND password = %s", (username, password))
             rows = cursor.fetchone()
+            connection.close()
 
             # Ensure username exists and password is correct
             if rows:
@@ -140,6 +144,7 @@ def scores():
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM users WHERE id = %s", (session['id'],))
     scores = cursor.fetchall()
+    connection.close()
     return render_template("scores.html", name = session['username'], scores = scores)
 
 
@@ -152,6 +157,7 @@ def reset_scores():
     cursor = connection.cursor()
     cursor.execute("UPDATE users SET maths_easy = %s, maths_intermediate = %s, maths_hard = %s, english_easy = %s, english_intermediate = %s, english_hard = %s, science_easy = %s, science_intermediate = %s, science_hard = %s WHERE id = %s", (reset, reset, reset, reset, reset, reset, reset, reset, reset, session["id"]))
     connection.commit()
+    connection.close()
     return jsonify(success=True)
 
 
@@ -213,6 +219,7 @@ def submit_scores():
         cursor.execute("UPDATE users SET science_hard = %s WHERE id = %s", (score, session['id']))
         connection.commit()
     
+    connection.close()
     return jsonify(success=True)
 
 
