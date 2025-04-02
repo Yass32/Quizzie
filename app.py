@@ -125,6 +125,8 @@ def scores():
     # Retrieve user's scores from the database
     with connection.cursor() as cursor:
         cursor.execute("SELECT * FROM users WHERE id = %s", (session['id'],))
+
+        flash(f"{session['id']} id session!")
         scores = cursor.fetchall()
     return render_template("scores.html", name=session['username'], scores=scores)
 
