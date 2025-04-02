@@ -141,6 +141,67 @@ def reset_scores():
         connection.commit()
     return jsonify(success=True)
 
+# Submit scores
+@app.route('/submit-scores', methods=['POST'])
+def submit_scores():
+    # Get the score page title of the quiz
+    score = request.form.get('score')
+    title = request.form.get('title')
+
+    # Check if the title is valid
+    if title not in ['Quizzie App: Easy Maths', 'Quizzie App: Intermediate Maths', 'Quizzie App: Hard Maths', 'Quizzie App: Easy English', 'Quizzie App: Intermediate English', 'Quizzie App: Hard English', 'Quizzie App: Easy Science', 'Quizzie App: Intermediate Science', 'Quizzie App: Hard Science']:
+        return "An error has occurred"
+    
+    # Update the score in the databse
+    if title == "Quizzie App: Easy Maths":
+        score = int(score)/4 * 100
+        cursor = connection.cursor()
+        cursor.execute("UPDATE users SET maths_easy = %s WHERE id = %s", (score, session['id']))
+        connection.commit()
+    elif title == "Quizzie App: Intermediate Maths":
+        score = int(score)/8 * 100
+        cursor = connection.cursor()
+        cursor.execute("UPDATE users SET maths_intermediate = %s WHERE id = %s", (score, session['id']))
+        connection.commit()
+    elif title == "Quizzie App: Hard Maths":
+        score = int(score)/10 * 100
+        cursor = connection.cursor()
+        cursor.execute("UPDATE users SET maths_hard = %s WHERE id = %s", (score, session['id']))
+        connection.commit()
+    elif title == "Quizzie App: Easy English":
+        score = int(score)/4 * 100
+        cursor = connection.cursor()
+        cursor.execute("UPDATE users SET english_easy = %s WHERE id = %s", (score, session['id']))
+        connection.commit()
+    elif title == "Quizzie App: Intermediate English":
+        score = int(score)/8 * 100
+        cursor = connection.cursor()
+        cursor.execute("UPDATE users SET english_intermediate = %s WHERE id = %s", (score, session['id']))
+        connection.commit()
+    elif title == "Quizzie App: Hard English":
+        score = int(score)/10 * 100
+        cursor = connection.cursor()
+        cursor.execute("UPDATE users SET english_hard = %s WHERE id = %s", (score, session['id']))
+        connection.commit()
+    elif title == "Quizzie App: Easy Science":
+        score = int(score)/4 * 100
+        cursor = connection.cursor()
+        cursor.execute("UPDATE users SET science_easy = %s WHERE id = %s", (score, session['id']))
+        connection.commit()
+    elif title == "Quizzie App: Intermediate Science":
+        score = int(score)/8 * 100
+        cursor = connection.cursor()
+        cursor.execute("UPDATE users SET science_intermediate = %s WHERE id = %s", (score, session['id']))
+        connection.commit()
+    elif title == "Quizzie App: Hard Science":
+        score = int(score)/10 * 100
+        cursor = connection.cursor()
+        cursor.execute("UPDATE users SET science_hard = %s WHERE id = %s", (score, session['id']))
+        connection.commit()
+    
+    connection.close()
+    return jsonify(success=True)
+
 # Individual Quiz Routes
 @app.route("/maths_easy")
 def maths_easy():
