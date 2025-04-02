@@ -128,6 +128,36 @@ def logout():
 # Scores Page Route
 @app.route("/scores")
 def scores():
+    # Ensure the database connection is active
+    global connection
+    if connection is None or not connection.open:
+        try:
+            connection = pymysql.connect(
+                host=app.config["MYSQLHOST"],
+                user=app.config["MYSQLUSER"],
+                password=app.config["MYSQLPASSWORD"],
+                database=app.config["MYSQLDATABASE"],
+                port=app.config["MYSQLPORT"],
+                cursorclass=pymysql.cursors.DictCursor
+            )
+        except Exception as e:
+            return f"❌ Database connection failed: {e}"
+
+    # Ensure session has an ID
+    if "id" not in session or not session["id"]:
+        return "❌ User is not logged in"
+
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT * FROM users WHERE id = %s", (session['id'],))
+            scores = cursor.fetchall()
+        return render_template("scores.html", name=session['username'], scores=scores)
+    except pymysql.MySQLError as e:
+        return f"❌ Database error: {e}"
+
+'''
+@app.route("/scores")
+def scores():
     # Retrieve user's scores from the database
     with connection.cursor() as cursor:
         cursor.execute("SELECT * FROM users WHERE id = %s", (session['id'],))
@@ -135,6 +165,7 @@ def scores():
         print(f"{session['id']} session['id'] Select from users where!")
         scores = cursor.fetchall()
     return render_template("scores.html", name=session['username'], scores=scores)
+    '''
 
 # Reset User Scores Route
 @app.route('/reset-scores', methods=['POST'])
