@@ -19,21 +19,21 @@
             {% for score in scores %}
             <tr>
                 <th>Easy</th>
-                <td>{{ score[3] ? score[3] + '%' : '0%' }}</td>
-                <td>{{ score[6] ? score[6] + '%' : '0%' }}</td>
-                <td>{{ score[9] ? score[9] + '%' : '0%' }}</td>
+                <td>{{ score[3] if score[3] else '0' }}%</td>
+                <td>{{ score[6] if score[6] else '0' }}%</td>
+                <td>{{ score[9] if score[9] else '0' }}%</td>
             </tr>
             <tr>
                 <th>Intermediate</th>
-                <td>{{ score[4] ? score[4] + '%' : '0%' }}</td>
-                <td>{{ score[7] ? score[7] + '%' : '0%' }}</td>
-                <td>{{ score[10] ? score[10] + '%' : '0%' }}</td>
+                <td>{{ score[4] if score[4] else '0' }}%</td>
+                <td>{{ score[7] if score[7] else '0' }}%</td>
+                <td>{{ score[10] if score[10] else '0' }}%</td>
             </tr>
             <tr>
                 <th>Hard</th>
-                <td>{{ score[5] ? score[5] + '%' : '0%' }}</td>
-                <td>{{ score[8] ? score[8] + '%' : '0%' }}</td>
-                <td>{{ score[11] ? score[11] + '%' : '0%' }}</td>
+                <td>{{ score[5] if score[5] else '0' }}%</td>
+                <td>{{ score[8] if score[8] else '0' }}%</td>
+                <td>{{ score[11] if score[11] else '0' }}%</td>
             </tr>
             {% endfor %}
         </tbody>

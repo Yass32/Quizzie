@@ -99,6 +99,12 @@ def login():
             if row:
                 session['loggedin'] = True
                 session['id'] = row["id"]
+                print(f"{session['id']} session['id']!")
+                print(f"{session[id]} session[id]!")
+
+                print(f"{row['id']} row['id']!")
+                print(f"{row[id]} row[id]!")
+
                 session['username'] = username
                 flash(f"{session['username']} you have logged in successfully!")
                 return redirect('/')
@@ -126,7 +132,7 @@ def scores():
     with connection.cursor() as cursor:
         cursor.execute("SELECT * FROM users WHERE id = %s", (session['id'],))
 
-        flash(f"{session['id']} id session!")
+        print(f"{session['id']} session['id'] Select from users where!")
         scores = cursor.fetchall()
     return render_template("scores.html", name=session['username'], scores=scores)
 
