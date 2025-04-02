@@ -1,5 +1,0 @@
-[phases.setup]
-aptPkgs = ["build-essential", "python3-dev", "default-libmysqlclient-dev", "pkg-config"]
-
-[phases.install]
-cmds = ["pip install --upgrade pip", "pip install wheel setuptools", "pip install -r requirements.txt"]

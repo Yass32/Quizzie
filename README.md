@@ -17,7 +17,7 @@ Quizzie is a web-based quiz application that provides trivia questions in the su
 ### Prerequisites
 
 - Python 3.10 or higher
-- MySQL server
+- MySQL server (Railway)
 - A virtual environment (optional but recommended)
 
 ### Steps
@@ -45,9 +45,9 @@ Quizzie is a web-based quiz application that provides trivia questions in the su
      app.config["MYSQL_PASSWORD"] = ""
      app.config["MYSQL_DB"] = "users"
      ```
-   - Run the following SQL command to create the `userr` table:
+   - Run the following SQL command to create the `users` table:
      ```sql
-     CREATE TABLE userr (
+     CREATE TABLE users (
          id INT PRIMARY KEY AUTO_INCREMENT,
          username TEXT,
          password TEXT,
@@ -111,7 +111,7 @@ Quizzie/
 
 - **Backend**: Flask, Flask-MySQLdb, Flask-Session
 - **Frontend**: HTML, CSS (Bootstrap), JavaScript (jQuery)
-- **Database**: MySQL
+- **Database**: MySQL (Railway)
 - **Other Libraries**: NumPy, Pandas
 
 ## Future Enhancements
