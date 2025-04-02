@@ -17,17 +17,10 @@ app.config["MYSQLPASSWORD"] = os.getenv("MYSQLPASSWORD")
 app.config["MYSQLDATABASE"] = os.getenv("MYSQLDATABASE")
 app.config["MYSQLPORT"] = int(os.getenv("MYSQLPORT", 3306))
 
-# Debug: Print environment variables (REMOVE after debugging)
-print("MYSQLHOST:", app.config["MYSQLHOST"])
-print("MYSQLUSER:", app.config["MYSQLUSER"])
-print("MYSQLDATABASE:", app.config["MYSQLDATABASE"])
-print("MYSQLPORT:", app.config["MYSQLPORT"])
-print("MYSQLPASSWORD:", app.config["MYSQLPASSWORD"])
-
 
 # Establish MySQL Connection using pymysql
 try:
-    conn = pymysql.connect(
+    connection = pymysql.connect(
         host=app.config["MYSQLHOST"],
         user=app.config["MYSQLUSER"],
         password=app.config["MYSQLPASSWORD"],
@@ -38,24 +31,21 @@ try:
     print("✅ Database connected successfully!")
 except Exception as e:
     print(f"❌ Database connection failed: {e}")
-    conn = None  # Prevent further errors
+    connection = None  # Prevent further errors
 
 # Test database connection
 @app.route("/test_db")
 def test_db():
-    if conn is None:
+    if connection is None:
         return "❌ Database connection failed!"
     
     try:
-        with conn.cursor() as cursor:
+        with connection.cursor() as cursor:
             cursor.execute("SELECT 1")
         return "✅ Database connected successfully!"
     except Exception as e:
         return f"❌ Database error: {e}"
 
-@app.route('/health')
-def health_check():
-    return 'OK', 200
 
 # Home Page
 @app.route("/")
@@ -79,20 +69,20 @@ def register():
             return render_template("register.html")
         try:
             # Insert user into the database
-            cursor = mysql.connection.cursor()
+            cursor = connection.cursor()
             cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
             session['loggedin'] = True
             session['id'] = cursor.lastrowid
             session['username'] = username
-            mysql.connection.commit()
+            connection.commit()
             flash(f"{session['username']} you have registered in successfully !!")
             return redirect('/')
-        except:
-            msg = 'Username or Password is already taken!'
-            return render_template("register.html", msg = msg)
+        except pymysql.MySQLError as e:
+            print(f"Database error: {e}")
+            msg = "Username is already taken or an error occurred!"
+            return render_template("register.html", msg=msg)
     else:
-        msg = 'Please fill out the form !'
-        return render_template("register.html", msg = msg)
+        return render_template("register.html", msg = 'Please fill out the form !')
 
 
 # User login   
@@ -108,27 +98,27 @@ def login():
             return render_template("login.html")
         try:
             # Query database for username and password
-            cursor = mysql.connection.cursor()
+            cursor = connection.cursor()
             cursor.execute("SELECT id FROM users WHERE username = %s AND password = %s", (username, password))
             rows = cursor.fetchone()
 
             # Ensure username exists and password is correct
-            if rows is not None:
+            if rows:
                 # Remember which user has logged in
                 session['loggedin'] = True
-                session['id'] = rows[0]
+                session['id'] = rows["id"]
                 session['username'] = username
                 flash(f"{session['username']} you have logged in successfully !!")
                 return redirect('/')
             else:
-                msg = 'Username or Password is not in the database'
+                msg = 'Invalid username or password'
                 return render_template("login.html", msg = msg)          
-        except:
-            msg = 'Username or Password is incorrect!'
-            return render_template("login.html", msg = msg)
-    else:
-        msg = 'Please fill out the form !'
-        return render_template("login.html", msg = msg)
+        except pymysql.MySQLError as e:
+            print(f"Database error: {e}")
+            msg = "An error occurred, please try again!"
+            return render_template("login.html", msg=msg)
+
+    return render_template("login.html", msg = 'Please fill out the form !')
 
 
 # User logout
@@ -138,6 +128,8 @@ def logout():
     session['loggedin'] = None
     session['id'] = None
     session['username'] = None
+    session.clear()
+    flash("You have logged out successfully !!")
     return redirect("/")
 
 
@@ -145,7 +137,7 @@ def logout():
 @app.route("/scores")
 def scores():
     # Retrieve user scores from the database
-    cursor = mysql.connection.cursor()
+    cursor = connection.cursor()
     cursor.execute("SELECT * FROM users WHERE id = %s", (session['id'],))
     scores = cursor.fetchall()
     return render_template("scores.html", name = session['username'], scores = scores)
@@ -157,9 +149,9 @@ def reset_scores():
     # Reset scores in the database
     reset = int(request.form.get('score'))
     print(reset)
-    cursor = mysql.connection.cursor()
+    cursor = connection.cursor()
     cursor.execute("UPDATE users SET maths_easy = %s, maths_intermediate = %s, maths_hard = %s, english_easy = %s, english_intermediate = %s, english_hard = %s, science_easy = %s, science_intermediate = %s, science_hard = %s WHERE id = %s", (reset, reset, reset, reset, reset, reset, reset, reset, reset, session["id"]))
-    mysql.connection.commit()
+    connection.commit()
     return jsonify(success=True)
 
 
@@ -177,49 +169,49 @@ def submit_scores():
     # Update the score in the databse
     if title == "Quizzie App: Easy Maths":
         score = int(score)/4 * 100
-        cursor = mysql.connection.cursor()
+        cursor = connection.cursor()
         cursor.execute("UPDATE users SET maths_easy = %s WHERE id = %s", (score, session['id']))
-        mysql.connection.commit()
+        connection.commit()
     elif title == "Quizzie App: Intermediate Maths":
         score = int(score)/8 * 100
-        cursor = mysql.connection.cursor()
+        cursor = connection.cursor()
         cursor.execute("UPDATE users SET maths_intermediate = %s WHERE id = %s", (score, session['id']))
-        mysql.connection.commit()
+        connection.commit()
     elif title == "Quizzie App: Hard Maths":
         score = int(score)/10 * 100
-        cursor = mysql.connection.cursor()
+        cursor = connection.cursor()
         cursor.execute("UPDATE users SET maths_hard = %s WHERE id = %s", (score, session['id']))
-        mysql.connection.commit()
+        connection.commit()
     elif title == "Quizzie App: Easy English":
         score = int(score)/4 * 100
-        cursor = mysql.connection.cursor()
+        cursor = connection.cursor()
         cursor.execute("UPDATE users SET english_easy = %s WHERE id = %s", (score, session['id']))
-        mysql.connection.commit()
+        connection.commit()
     elif title == "Quizzie App: Intermediate English":
         score = int(score)/8 * 100
-        cursor = mysql.connection.cursor()
+        cursor = connection.cursor()
         cursor.execute("UPDATE users SET english_intermediate = %s WHERE id = %s", (score, session['id']))
-        mysql.connection.commit()
+        connection.commit()
     elif title == "Quizzie App: Hard English":
         score = int(score)/10 * 100
-        cursor = mysql.connection.cursor()
+        cursor = connection.cursor()
         cursor.execute("UPDATE users SET english_hard = %s WHERE id = %s", (score, session['id']))
-        mysql.connection.commit()
+        connection.commit()
     elif title == "Quizzie App: Easy Science":
         score = int(score)/4 * 100
-        cursor = mysql.connection.cursor()
+        cursor = connection.cursor()
         cursor.execute("UPDATE users SET science_easy = %s WHERE id = %s", (score, session['id']))
-        mysql.connection.commit()
+        connection.commit()
     elif title == "Quizzie App: Intermediate Science":
         score = int(score)/8 * 100
-        cursor = mysql.connection.cursor()
+        cursor = connection.cursor()
         cursor.execute("UPDATE users SET science_intermediate = %s WHERE id = %s", (score, session['id']))
-        mysql.connection.commit()
+        connection.commit()
     elif title == "Quizzie App: Hard Science":
         score = int(score)/10 * 100
-        cursor = mysql.connection.cursor()
+        cursor = connection.cursor()
         cursor.execute("UPDATE users SET science_hard = %s WHERE id = %s", (score, session['id']))
-        mysql.connection.commit()
+        connection.commit()
     
     return jsonify(success=True)
 
