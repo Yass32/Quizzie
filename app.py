@@ -1,7 +1,7 @@
-from flask import Flask, jsonify, render_template, request, flash, redirect, session
-from flask_mysqldb import MySQL
-from flask_session import Session
 import os
+import pymysql
+from flask import Flask, jsonify, render_template, request, flash, redirect, session
+from flask_session import Session
 #Create a Flask instance
 app = Flask(__name__)
 
@@ -25,21 +25,33 @@ print("MYSQLPORT:", app.config["MYSQLPORT"])
 print("MYSQLPASSWORD:", app.config["MYSQLPASSWORD"])
 
 
-# Initialize MySQL
+# Establish MySQL Connection using pymysql
 try:
-    mysql = MySQL(app)
-    print("MySQL initialized successfully!")
+    conn = pymysql.connect(
+        host=app.config["MYSQLHOST"],
+        user=app.config["MYSQLUSER"],
+        password=app.config["MYSQLPASSWORD"],
+        database=app.config["MYSQLDATABASE"],
+        port=app.config["MYSQLPORT"],
+        cursorclass=pymysql.cursors.DictCursor
+    )
+    print("✅ Database connected successfully!")
 except Exception as e:
-    print(f"Error initializing MySQL: {e}")
+    print(f"❌ Database connection failed: {e}")
+    conn = None  # Prevent further errors
+
 # Test database connection
-try:
-    with app.app_context():
-        cursor = mysql.connection.cursor()
-        cursor.execute("SELECT 1")
-        print("Database connected successfully!")
-        cursor.close()
-except Exception as e:
-    print(f"Failed to connect to the database: {e}")
+@app.route("/test_db")
+def test_db():
+    if conn is None:
+        return "❌ Database connection failed!"
+    
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute("SELECT 1")
+        return "✅ Database connected successfully!"
+    except Exception as e:
+        return f"❌ Database error: {e}"
 
 @app.route('/health')
 def health_check():
