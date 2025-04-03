@@ -145,6 +145,8 @@ def scores():
         with connection.cursor() as cursor:
             cursor.execute("SELECT * FROM users WHERE id = %s", (session['id'],))
             scores = cursor.fetchall()
+            print(f"{session['id']} session['id'] Select from users where!")
+            print(scores)
         return render_template("scores.html", name=session['username'], scores=scores)
     except pymysql.MySQLError as e:
         return f"❌ Database error: {e}"
